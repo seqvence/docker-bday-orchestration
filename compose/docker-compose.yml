@@ -3,7 +3,7 @@ webserver:
     ports:
         - "5000:5000"
     links:
-       - mongo
+       - mongodb
     entrypoint: python /opt/webserver/webservice.py
-mongo:
+mongodb:
     image: mongo:latest
