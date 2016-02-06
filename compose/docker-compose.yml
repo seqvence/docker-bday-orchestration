@@ -1,0 +1,8 @@
+webserver:
+    image: seqvence/webserver:latest
+    ports:
+        - "5000:5000"
+    links:
+       - mongo
+mongo:
+    image: mongo:latest
