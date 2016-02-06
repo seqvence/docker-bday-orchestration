@@ -1,8 +1,9 @@
 webserver:
-    image: seqvence/webserver:latest
+    image: webserver:latest
     ports:
         - "5000:5000"
     links:
        - mongo
+    entrypoint: python /opt/webserver/webservice.py
 mongo:
     image: mongo:latest
