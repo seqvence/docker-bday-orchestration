@@ -13,7 +13,3 @@ RUN git clone https://$GIT_TOKEN@github.com/seqvence/docker-bday-backend.git /op
 RUN pip install --upgrade pip
 RUN pip install -r /opt/webserver/requirements.txt
 
-
-
-
-
