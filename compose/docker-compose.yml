@@ -1,9 +1,13 @@
-webserver:
-    image: webserver:latest
-    ports:
-        - "5000:5000"
-    links:
-       - mongodb
-    entrypoint: python /opt/webserver/webservice.py
-mongodb:
-    image: mongo:latest
+version: '2'
+services:
+    webserver:
+        image: webserver:latest
+        ports:
+            - "5000:5000"
+        links:
+            - mongodb
+        depends_on:
+            - mongodb
+        entrypoint: python /opt/webserver/webservice.py
+    mongodb:
+        image: mongo:latest
