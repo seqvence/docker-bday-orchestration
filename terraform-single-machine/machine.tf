@@ -25,10 +25,17 @@ resource "null_resource" "docker-bday" {
       host = "${digitalocean_domain.docker-bday.name}"
   }
 
+  provisioner "file" {
+      source = "ansible-playbooks/single_host.yml"
+      destination = "/tmp/local_playbook.yml"
+  }
+
   provisioner "remote-exec" {
     inline = [
       "export PATH=$PATH:/usr/bin",
       "apt-get update -y; apt-get install -y software-properties-common; apt-add-repository -y ppa:ansible/ansible; apt-get update -y; apt-get install -y ansible git",
+      "git clone https://github.com/AnsibleShipyard/ansible-docker.git /tmp/ansible/docker",
+      "ansible-playbook -i \"localhost,\" -c local /tmp/local_playbook.yml",
       ]
   }
 }
