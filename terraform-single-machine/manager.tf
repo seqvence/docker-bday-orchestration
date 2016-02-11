@@ -1,11 +1,11 @@
-resource "digitalocean_domain" "docker-bday" {
-    name = "docker-bday.do.lab.seqvence.com"
-    ip_address = "${digitalocean_droplet.docker-bday.ipv4_address}"
+resource "digitalocean_domain" "docker-bday-manager" {
+    name = "docker-bday-manager.do.lab.seqvence.com"
+    ip_address = "${digitalocean_droplet.docker-bday-manager.ipv4_address}"
 }
 
-resource "digitalocean_droplet" "docker-bday" {
+resource "digitalocean_droplet" "docker-bday-manager" {
     image = "ubuntu-14-04-x64"
-    name = "docker-bday"
+    name = "docker-bday-manager"
     region = "ams3"
     size = "2gb"
     private_networking = true
@@ -15,18 +15,18 @@ resource "digitalocean_droplet" "docker-bday" {
     ]
 }
 
-resource "null_resource" "docker-bday" {
+resource "null_resource" "docker-bday-manager" {
 
   connection {
       user = "root"
       type = "ssh"
       key_file = "${var.pvt_key}"
       timeout = "6m"
-      host = "${digitalocean_domain.docker-bday.name}"
+      host = "${digitalocean_domain.docker-bday-manager.name}"
   }
 
   provisioner "file" {
-      source = "ansible-playbooks/single_host.yml"
+      source = "ansible-playbooks/manager.yml"
       destination = "/tmp/local_playbook.yml"
   }
 
