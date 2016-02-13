@@ -30,11 +30,16 @@ resource "null_resource" "docker-bday-slave" {
       destination = "/tmp/local_playbook.yml"
   }
 
+  provisioner "file" {
+      source = "ansible-playbooks/slave-compose.yml"
+      destination = "/tmp/slave-compose.yml"
+  }
+
   provisioner "remote-exec" {
     inline = [
       "export PATH=$PATH:/usr/bin",
       "apt-get update -y; apt-get install -y software-properties-common; apt-add-repository -y ppa:ansible/ansible; apt-get update -y; apt-get install -y ansible git; apt-get -y install python-pip",
-      "git clone https://github.com/AnsibleShipyard/ansible-docker.git /tmp/ansible/docker",
+      "git clone https://github.com/angstwad/docker.ubuntu.git /tmp/ansible/docker",
       "ansible-playbook -i \"localhost,\" -c local /tmp/local_playbook.yml",
       "pip install docker-compose"
       ]

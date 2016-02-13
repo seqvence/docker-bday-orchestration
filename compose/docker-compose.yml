@@ -9,5 +9,8 @@ services:
         depends_on:
             - mongodb
         entrypoint: python /opt/webserver/webservice.py
+        volumes:
+            - /Users/al3x/code/seqvence/docker-bday/docker-bday-backend:/opt/webserver
+            - /Users/al3x/code/seqvence/docker-bday/docker-bday-frontend/resources/public:/opt/webserver/static
     mongodb:
         image: mongo:latest

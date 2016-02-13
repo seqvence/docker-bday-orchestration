@@ -3,4 +3,4 @@
   connection: local
   sudo: yes
   roles:
-      - {role: /tmp/ansible/docker}
+      - {role: "/tmp/ansible/docker"}

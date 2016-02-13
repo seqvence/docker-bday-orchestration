@@ -1,8 +1,0 @@
-# Created by https://www.gitignore.io/api/terraform
-
-### Terraform ###
-# Terraform - https://terraform.io/
-.terraform
-terraform.tfvars
-terraform.tfstate
-terraform.tfstate.backup

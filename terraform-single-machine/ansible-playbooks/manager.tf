@@ -1,6 +1,0 @@
----
-- hosts: localhost
-  connection: local
-  sudo: yes
-  roles:
-      - {role: /tmp/ansible/docker}

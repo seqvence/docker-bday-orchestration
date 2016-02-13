@@ -1,0 +1,16 @@
+version: '2'
+services:
+    swarm_manager:
+        image: swarm
+        ports:
+            - '4000:4000'
+        hostname: 'swarm_manager0'
+        depends_on:
+            - consul-swarm
+        command: 'manage -H :4000 --replication --advertise 10.133.1.50:4000  consul://10.133.1.50:8500'
+    consul-swarm:
+        image: progrium/consul:latest
+        command: ['-server', '-bootstrap']
+        hostname: 'consul-swarm'
+        ports:
+            - "8500:8500"

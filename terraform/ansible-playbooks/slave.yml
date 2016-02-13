@@ -3,4 +3,5 @@
   connection: local
   sudo: yes
   roles:
-      - {role: /tmp/ansible/docker}
+      - {role: "/tmp/ansible/docker",
+         docker_opts: "-H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock"}
