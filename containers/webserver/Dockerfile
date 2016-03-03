@@ -4,7 +4,6 @@ ARG GIT_TOKEN
 RUN apk add --update \
     git \
     py-pip \
-    nginx \
     supervisor \
 && rm -rf /var/cache/apk/*
 
@@ -18,10 +17,7 @@ RUN pip install --upgrade gunicorn
 RUN pip install -r /opt/webserver/requirements.txt
 
 COPY gunicorn.conf /opt/
-COPY nginx.conf /etc/nginx/
 COPY gunicorn.ini /etc/supervisor.d/
-
-RUN rm -f /etc/init.d/*
 
 
 #ENTRYPOINT /usr/bin/supervisord -c /etc/supervisord.conf --nodaemon

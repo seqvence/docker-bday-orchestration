@@ -1,5 +1,13 @@
 version: '2'
 services:
+    loadbalancer:
+        image: containous/traefik
+        ports:
+            - "80:80"
+            - "8080:8080"
+        volumes:
+            - ./traefik.toml:/etc/traefik/traefik.toml
+            - /var/run/docker.sock:/var/run/docker.sock
     worker:
         image: worker:latest
         links:
@@ -10,11 +18,18 @@ services:
     webserver:
         image: webserver:latest
         ports:
-            - "5000:5000"
+            - "8000"
         links:
             - mongodb
+        labels:
+            - "traefik.backend=gunicorn"
+            - "traefik.frontend.passHostHeader=true"
+            - "traefik.frontend.rule=Host"
+            - "traefik.frontend.value=docker-bday-manager.do.lab.seqvence.com"
         depends_on:
             - mongodb
-        entrypoint: python /opt/webserver/webservice.py
+        entrypoint: /usr/bin/supervisord -c /etc/supervisord.conf --nodaemon
     mongodb:
         image: mongo:latest
+        labels:
+            - "traefik.enable=false"
