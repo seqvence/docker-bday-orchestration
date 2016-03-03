@@ -18,6 +18,3 @@ RUN pip install -r /opt/webserver/requirements.txt
 
 COPY gunicorn.conf /opt/
 COPY gunicorn.ini /etc/supervisor.d/
-
-
-#ENTRYPOINT /usr/bin/supervisord -c /etc/supervisord.conf --nodaemon
