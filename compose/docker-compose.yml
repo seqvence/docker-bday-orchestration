@@ -2,6 +2,7 @@ version: '2'
 services:
     loadbalancer:
         image: containous/traefik
+        restart: always
         ports:
             - "80:80"
             - "8080:8080"
@@ -10,6 +11,7 @@ services:
             - /var/run/docker.sock:/var/run/docker.sock
     worker:
         image: worker:latest
+        restart: always
         links:
             - mongodb
         depends_on:
@@ -31,5 +33,6 @@ services:
         entrypoint: /usr/bin/supervisord -c /etc/supervisord.conf --nodaemon
     mongodb:
         image: mongo:latest
+        restart: always
         labels:
             - "traefik.enable=false"
