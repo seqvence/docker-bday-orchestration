@@ -32,7 +32,7 @@ resource "null_resource" "docker-bday-slave" {
 
   provisioner "remote-exec" {
     inline = [
-        "mkdir /root/ansible"
+        "mkdir -p /root/ansible"
     ]
   }
 

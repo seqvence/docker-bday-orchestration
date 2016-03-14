@@ -7,7 +7,7 @@ services:
         hostname: 'swarm_manager0'
 #        depends_on:
 #            - consul-swarm
-        command: 'manage -H :4000 --replication --advertise {{ internal_ip }}:4000  consul://{{ internal_ip }}:8500'
+        command: 'manage -H :4000 --replication --advertise {{ internal_ip }}:4000  consul://127.0.0.1:8500'
 #    consul-swarm:
 #        image: progrium/consul:latest
 #        command: ['-server', '-bootstrap']

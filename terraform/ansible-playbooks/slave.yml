@@ -4,9 +4,17 @@
   sudo: yes
   vars:
       internal_ip: "{{ INTERNAL_IP }}"
-      consul_endpoint: "{{ CONSUL_ENDPOINT }}"
+      consul_servers_string: "{{ CONSUL_ENDPOINT }}"
       hostname: "slave0"
   roles:
+      - {role: "/root/ansible/ansible-consul",
+         consul_version: 0.6.3,
+         consul_bootstrap: true,
+         consul_servers: ["{{ consul_servers_string }}"],
+         consul_join_at_start: true,
+         consul_retry_join: true,
+         consul_bind_address: "{{ internal_ip }}",
+         consul_node_name: "{{ hostname }}"}
       - {role: "/root/ansible/docker",
-         docker_opts: "--cluster-store=consul://{{ consul_endpoint }}:8500 --cluster-advertise={{ internal_ip }}:2375 -H tcp://{{ internal_ip  }}:2375 -H unix:///var/run/docker.sock"}
+         docker_opts: "--cluster-store=consul://127.0.0.1:8500 --cluster-advertise={{ internal_ip }}:2375 -H tcp://{{ internal_ip  }}:2375 -H unix:///var/run/docker.sock"}
       - {role: "/root/ansible/slave"}
