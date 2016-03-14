@@ -1,0 +1,2 @@
+- name: "Create docker-compose file"
+  template: src=manager-compose.yml.j2 dest=/root/docker-compose.yml
