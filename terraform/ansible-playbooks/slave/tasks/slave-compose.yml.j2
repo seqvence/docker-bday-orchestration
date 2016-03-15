@@ -1,0 +1,6 @@
+version: '2'
+services:
+    swarm_slave:
+        image: swarm
+        hostname: {{ hostname }}
+        command: 'join --advertise={{ internal_ip }}:2375 consul://127.0.0.1:8500'

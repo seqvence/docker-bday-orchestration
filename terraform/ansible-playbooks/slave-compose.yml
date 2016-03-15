@@ -1,6 +1,0 @@
-version: '2'
-services:
-    swarm_slave:
-        image: swarm
-        hostname: 'swarm_slave0'
-        command: 'join --advertise=10.133.10.185:2375 consul://10.133.1.50:8500'

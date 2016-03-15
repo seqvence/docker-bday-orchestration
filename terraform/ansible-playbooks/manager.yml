@@ -2,5 +2,14 @@
 - hosts: localhost
   connection: local
   sudo: yes
+  vars:
+      internal_ip: "{{ INTERNAL_IP }}"
   roles:
-      - {role: "/tmp/ansible/docker"}
+      - {role: "/root/ansible/ansible-consul",
+         consul_version: 0.6.3,
+         consul_is_server: true,
+         consul_bootstrap: true,
+         consul_bind_address: "{{ internal_ip }}"}
+      - {role: "/root/ansible/docker",
+         docker_opts: "--cluster-store=consul://127.0.0.1:8500 --cluster-advertise={{ internal_ip }}:2375 -H tcp://{{ internal_ip  }}:2375 -H unix:///var/run/docker.sock"}
+      - {role: "/root/ansible/manager"}

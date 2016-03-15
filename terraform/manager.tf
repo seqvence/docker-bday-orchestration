@@ -22,26 +22,35 @@ resource "null_resource" "docker-bday-manager" {
       type = "ssh"
       key_file = "${var.pvt_key}"
       timeout = "6m"
-      host = "${digitalocean_domain.docker-bday-manager.name}"
+      host = "${digitalocean_droplet.docker-bday-manager.ipv4_address}"
   }
 
   provisioner "file" {
       source = "ansible-playbooks/manager.yml"
-      destination = "/tmp/local_playbook.yml"
+      destination = "/root/local_playbook.yml"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+        "mkdir /root/ansible"
+    ]
   }
 
   provisioner "file" {
-      source = "ansible-playbooks/manager-compose.yml"
-      destination = "/tmp/manager-compose.yml"
+      source = "ansible-playbooks/manager"
+      destination = "/root/ansible/manager"
   }
 
   provisioner "remote-exec" {
     inline = [
       "export PATH=$PATH:/usr/bin",
       "apt-get update -y; apt-get install -y software-properties-common; apt-add-repository -y ppa:ansible/ansible; apt-get update -y; apt-get install -y ansible git; apt-get -y install python-pip",
-      "git clone https://github.com/angstwad/docker.ubuntu.git /tmp/ansible/docker",
-      "ansible-playbook -i \"localhost,\" -c local /tmp/local_playbook.yml",
-      "pip install docker-compose"
+      "git clone https://github.com/weareinteractive/ansible-nginx.git /root/ansible/franklinkim.nginx",
+      "git clone https://github.com/nustiueudinastea/ansible-consul.git /root/ansible/ansible-consul",
+      "git clone https://github.com/angstwad/docker.ubuntu.git /root/ansible/docker",
+      "ansible-playbook -i \"localhost,\" -c local --extra-vars '{\"INTERNAL_IP\":\"${digitalocean_droplet.docker-bday-manager.ipv4_address_private}\", \"CONSUL_ENDPOINT\":\"${digitalocean_droplet.docker-bday-manager.ipv4_address_private}\"}' /root/local_playbook.yml",
+      "pip install docker-compose",
+      "service docker restart"
       ]
   }
 }
