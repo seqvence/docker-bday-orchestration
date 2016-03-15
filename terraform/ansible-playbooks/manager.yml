@@ -4,12 +4,23 @@
   sudo: yes
   vars:
       internal_ip: "{{ INTERNAL_IP }}"
+      hostname: "{{ HOSTNAME }}"
+      bootstrap: "{{ BOOTSTRAP }}"
+      consul_servers_string: "{{ CONSUL_ENDPOINT }}"
+      join: "{{ JOIN }}"
+      consul_client_ip: "172.17.0.1"
   roles:
       - {role: "/root/ansible/ansible-consul",
          consul_version: 0.6.3,
          consul_is_server: true,
-         consul_bootstrap: true,
-         consul_bind_address: "{{ internal_ip }}"}
+         consul_bootstrap: "{{ bootstrap }}",
+         consul_join_at_start: "{{ join }}",
+         consul_retry_join: "{{ join }}",
+         consul_servers: ["{{ consul_servers_string }}"],
+         consul_bind_address: "{{ internal_ip }}",
+         consul_client_address: "{{ consul_client_ip }}",
+         consul_client_address_bind: true,
+         consul_node_name: "{{ hostname }}"}
       - {role: "/root/ansible/docker",
-         docker_opts: "--cluster-store=consul://127.0.0.1:8500 --cluster-advertise={{ internal_ip }}:2375 -H tcp://{{ internal_ip  }}:2375 -H unix:///var/run/docker.sock"}
+         docker_opts: "--cluster-store=consul://{{ consul_client_ip }}:8500 --cluster-advertise={{ internal_ip }}:2375 -H tcp://{{ internal_ip  }}:2375 -H unix:///var/run/docker.sock"}
       - {role: "/root/ansible/manager"}
