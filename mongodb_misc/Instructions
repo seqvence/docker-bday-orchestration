@@ -1,0 +1,44 @@
+# Clone orchestration repo
+git clone https://5add9ecdab5aebd839ac6c1f18668fb8817f28c9@github.com/seqvence/docker-bday-orchestration.git /root/
+
+# Create directory /data/db on the VMs
+mkdir -p /data/db
+
+# Create users
+db.createUser( {
+     user: "dba_admin",
+     pwd: "E5g8mOxH2gKTuduW",
+     roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]
+   });
+
+
+db.createUser( {
+     user: "dba_root",
+     pwd: "k6nMtV3KiYoFiV1R",
+     roles: [ { role: "root", db: "admin" } ]
+   });
+
+db.createUser( {
+     user: "dba",
+     pwd: "k6nMtV3KiYoFiV1R",
+     roles: [ { role: "root", db: "dockerBirthday" } ]
+   });
+
+# Replica setup
+mongo
+rs.initiate()
+rs.status()
+
+
+# Create indexes only on the primary
+$ mongo
+use dockerBirtday
+db.submissions.createIndex()
+db.submissions.createIndex()
+db.submissions.createIndex()
+db.submissions.createIndex()
+
+
+
+# Restart  docker-compose
+docker-compose restart
