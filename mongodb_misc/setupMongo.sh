@@ -28,7 +28,9 @@ use admin;
 db.createUser( {
      user: "dba_admin",
      pwd: "E5g8mOxH2gKTuduW",
-     roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]
+     roles: [ { role: "userAdminAnyDatabase", db: "admin" },
+              { role: "readWrite", db: "dockerBirthday" }
+            ]
    });
 
 
