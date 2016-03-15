@@ -10,7 +10,7 @@ services:
             - ./traefik.toml:/etc/traefik/traefik.toml
             - /var/run/docker.sock:/var/run/docker.sock
     worker:
-        image: worker:latest
+        image: seqvence/worker:latest
         restart: always
         links:
             - mongodb
@@ -18,7 +18,7 @@ services:
             - webserver
         entrypoint: python /opt/worker/worker.py
     webserver:
-        image: webserver:latest
+        image: seqvence/webserver:latest
         ports:
             - "8000"
         links:
