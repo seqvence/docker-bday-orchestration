@@ -1,11 +1,11 @@
-resource "digitalocean_domain" "docker-bday-manager" {
-    name = "docker-bday-manager.do.lab.seqvence.com"
-    ip_address = "${digitalocean_droplet.docker-bday-manager.ipv4_address}"
+resource "digitalocean_domain" "dbm0" {
+    name = "dbm0.do.lab.seqvence.com"
+    ip_address = "${digitalocean_droplet.dbm0.ipv4_address}"
 }
 
-resource "digitalocean_droplet" "docker-bday-manager" {
+resource "digitalocean_droplet" "dbm0" {
     image = "ubuntu-14-04-x64"
-    name = "docker-bday-manager"
+    name = "dbm0"
     region = "ams3"
     size = "2gb"
     private_networking = true
@@ -15,14 +15,14 @@ resource "digitalocean_droplet" "docker-bday-manager" {
     ]
 }
 
-resource "null_resource" "docker-bday-manager" {
+resource "null_resource" "dbm0" {
 
   connection {
       user = "root"
       type = "ssh"
       key_file = "${var.pvt_key}"
       timeout = "6m"
-      host = "${digitalocean_droplet.docker-bday-manager.ipv4_address}"
+      host = "${digitalocean_droplet.dbm0.ipv4_address}"
   }
 
   provisioner "file" {
@@ -48,7 +48,7 @@ resource "null_resource" "docker-bday-manager" {
       "git clone https://github.com/weareinteractive/ansible-nginx.git /root/ansible/franklinkim.nginx",
       "git clone https://github.com/nustiueudinastea/ansible-consul.git /root/ansible/ansible-consul",
       "git clone https://github.com/angstwad/docker.ubuntu.git /root/ansible/docker",
-      "ansible-playbook -i \"localhost,\" -c local --extra-vars '{\"INTERNAL_IP\":\"${digitalocean_droplet.docker-bday-manager.ipv4_address_private}\", \"CONSUL_ENDPOINT\":\"${digitalocean_droplet.docker-bday-manager.ipv4_address_private}\"}' /root/local_playbook.yml",
+      "ansible-playbook -i \"localhost,\" -c local --extra-vars '{\"INTERNAL_IP\":\"${digitalocean_droplet.dbm0.ipv4_address_private}\", \"CONSUL_ENDPOINT\":\"${digitalocean_droplet.dbm0.ipv4_address_private}\", \"HOSTNAME\":\"dbm0\"}' /root/local_playbook.yml",
       "pip install docker-compose",
       "service docker restart"
       ]

@@ -5,7 +5,7 @@
   vars:
       internal_ip: "{{ INTERNAL_IP }}"
       consul_servers_string: "{{ CONSUL_ENDPOINT }}"
-      hostname: "slave0"
+      hostname: "{{ HOSTNAME }}"
   roles:
       - {role: "/root/ansible/ansible-consul",
          consul_version: 0.6.3,
