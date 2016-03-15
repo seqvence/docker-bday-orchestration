@@ -19,8 +19,6 @@ services:
         image: seqvence/webserver:latest
         ports:
             - "8000"
-        links:
-            - mongodb
         labels:
             - "traefik.backend=gunicorn"
             - "traefik.frontend.passHostHeader=true"
