@@ -3,6 +3,11 @@ resource "digitalocean_domain" "dbm2" {
     ip_address = "${digitalocean_droplet.dbm2.ipv4_address}"
 }
 
+resource "digitalocean_domain" "dbm2i" {
+    name = "dbm2i.do.lab.seqvence.com"
+    ip_address = "${digitalocean_droplet.dbm2.ipv4_address_private}"
+}
+
 resource "digitalocean_droplet" "dbm2" {
     image = "ubuntu-14-04-x64"
     name = "dbm2"
