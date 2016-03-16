@@ -51,6 +51,7 @@ docker run \
 -v /data/db:/data/db \
 -v /root/docker-bday-orchestration/mongodb_misc/mongoKey:/opt/keyfile \
 --hostname="$1" \
+--label="traefik.enable=false" \
 -p 27017:27017 -d mongo:latest \
 --smallfiles \
 --keyFile /opt/keyfile/mongodb-keyfile \
@@ -75,6 +76,7 @@ docker run \
 -v /data/db:/data/db \
 -v /root/docker-bday-orchestration/mongodb_misc/mongoKey:/opt/keyfile \
 --hostname="$1" \
+--label="traefik.enable=false" \
 -p 27017:27017 -d mongo:latest \
 --smallfiles \
 --keyFile /opt/keyfile/mongodb-keyfile \
