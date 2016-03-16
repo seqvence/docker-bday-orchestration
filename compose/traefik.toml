@@ -16,5 +16,5 @@ address = ":8080"
 
 [docker]
 endpoint = "unix:///var/run/docker.sock"
-domain = "seqvence.com"
+domain = "dockerize.it"
 watch = true

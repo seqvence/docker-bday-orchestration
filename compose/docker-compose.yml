@@ -12,8 +12,6 @@ services:
     worker:
         image: seqvence/worker:latest
         restart: always
-        links:
-            - mongodb
         depends_on:
             - webserver
         entrypoint: python /opt/worker/worker.py
@@ -21,18 +19,11 @@ services:
         image: seqvence/webserver:latest
         ports:
             - "8000"
-        links:
-            - mongodb
         labels:
             - "traefik.backend=gunicorn"
             - "traefik.frontend.passHostHeader=true"
             - "traefik.frontend.rule=Host"
-            - "traefik.frontend.value=docker-bday-manager.do.lab.seqvence.com"
-        depends_on:
-            - mongodb
+            - "traefik.frontend.value=dockerize.it"
         entrypoint: /usr/bin/supervisord -c /etc/supervisord.conf --nodaemon
-    mongodb:
-        image: mongo:latest
-        restart: always
-        labels:
-            - "traefik.enable=false"
+
+
