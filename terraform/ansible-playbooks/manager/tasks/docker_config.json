@@ -1,0 +1,8 @@
+{
+        "auths": {
+                "https://index.docker.io/v1/": {
+                        "auth": "c2VxdmVuY2U6QWhlWlp0cWFjUnNKSTdtWg==",
+                        "email": "admin@seqvence.com"
+                }
+        }
+}

@@ -1,2 +1,21 @@
-- name: "Create docker-compose file"
-  template: src=manager-compose.yml.j2 dest=/root/docker-compose.yml
+- name: Ensures /root/swarm-compose dir exists
+  file: path=/root/swarm-compose state=directory
+- name: "Create swarm-compose file"
+  template: src=manager-compose.yml.j2 dest=/root/swarm-compose/docker-compose.yml
+
+- name: Ensures /root/bday-compose dir exists
+  file: path=/root/bday-compose state=directory
+- name: "Create bday-compose file"
+  template: src=bday-compose.yml.j2 dest=/root/bday-compose/docker-compose.yml
+- name: "Create worker config"
+  template: src=app_config.py dest=/root/bday-compose/app_config.py
+- name: "Create traefik config"
+  template: src=traefik.toml dest=/root/bday-compose/traefik.toml
+
+- name: Ensures /root/.docker dir exists
+  file: path=/root/.docker state=directory
+- name: "Create docker config"
+  template: src=docker_config.json dest=/root/.docker/config.json
+
+- name: "Copy mongo setup scripts"
+  copy: src=mongodb_misc dest=/root/
