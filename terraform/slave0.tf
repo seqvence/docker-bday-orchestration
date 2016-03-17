@@ -6,7 +6,7 @@ resource "digitalocean_domain" "dbs0" {
 resource "digitalocean_droplet" "dbs0" {
     image = "ubuntu-14-04-x64"
     name = "dbs0"
-    region = "ams3"
+    region = "nyc2"
     size = "2gb"
     private_networking = true
     ssh_keys = [

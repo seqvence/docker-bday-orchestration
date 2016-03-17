@@ -11,7 +11,7 @@ resource "digitalocean_domain" "dbm0i" {
 resource "digitalocean_droplet" "dbm0" {
     image = "ubuntu-14-04-x64"
     name = "dbm0"
-    region = "ams3"
+    region = "nyc2"
     size = "2gb"
     private_networking = true
     ssh_keys = [
