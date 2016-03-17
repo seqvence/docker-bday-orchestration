@@ -67,6 +67,7 @@ rs.initiate();
 rs.status();
 use dockerBirthday;
 db.submissions.createIndex({coordinates: 1});
+db.submissions.createIndex({_id: 1, status: 1})
 exit;
 EOF
 
