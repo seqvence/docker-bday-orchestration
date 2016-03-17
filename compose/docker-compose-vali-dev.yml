@@ -1,0 +1,40 @@
+version: '2'
+services:
+    worker:
+        image: seqvence/worker:latest
+        restart: always
+        links:
+            - mongodb
+            - consul
+        depends_on:
+            - webserver
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - /Users/valentinstoican/PycharmProjects/docker-bday-worker:/opt/worker
+        entrypoint: python /opt/worker/worker.py
+    webserver:
+        image: seqvence/webserver:latest
+        ports:
+            - "8000:8000"
+        links:
+            - mongodb
+        volumes:
+            - /Users/valentinstoican/PycharmProjects/docker-bday-backend:/opt/webserver
+        labels:
+            - "traefik.backend=gunicorn"
+            - "traefik.frontend.passHostHeader=true"
+            - "traefik.frontend.rule=Host"
+            - "traefik.frontend.value=dockerize.it"
+        entrypoint: /usr/bin/supervisord -c /etc/supervisord.conf --nodaemon
+    mongodb:
+        image: mongo:latest
+    consul:
+        image: "voxxit/consul:latest"
+        hostname: "consul"
+        ports:
+          - "8400:8400"
+          - "8500:8500"
+          - "53:53"
+        command: "agent -data-dir /data -server -bootstrap-expect 1 -ui-dir /ui -client=0.0.0.0"
+
+
