@@ -1,0 +1,46 @@
+################################################################                                                                                                            [22/1825]
+# Global configuration
+################################################################
+#port = ":80"
+graceTimeOut = 10
+logLevel = "DEBUG"
+
+DefaultEntryPoints = ["http"]
+# traefik.toml
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+
+[file]
+watch = true
+
+[frontends]
+  [frontends.frontend1]
+  entrypoints = ["http"] # overrides defaultEntryPoints
+  backend = "gunicorn"
+  passHostHeader = true
+    [frontends.frontend1.routes.domain]
+    rule = "Host"
+    value = "dbm0.do.lab.seqvence.com"
+  [frontends.frontend2]
+  entrypoints = ["http"] # overrides defaultEntryPoints
+  backend = "gunicorn"
+  passHostHeader = true
+    [frontends.frontend2.routes.domain]
+    rule = "Host"
+    value = "178.62.252.222"
+
+
+[backends]
+  [backends.gunicorn]
+    [backends.gunicorn.circuitbreaker]
+      expression = "NetworkErrorRatio() > 0.5"
+    [backends.gunicorn.servers.server1]
+    url = "http://172.19.0.2:8000"
+    weight = 1
+################################################################
+# Web configuration backend
+################################################################
+
+[web]
+address = ":8080"
