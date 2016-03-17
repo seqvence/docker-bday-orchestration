@@ -65,6 +65,8 @@ use admin;
 db.auth("dba_root", "k6nMtV3KiYoFiV1R");
 rs.initiate();
 rs.status();
+use dockerBirthday;
+db.submissions.createIndex({coordinates: 1});
 exit;
 EOF
 
