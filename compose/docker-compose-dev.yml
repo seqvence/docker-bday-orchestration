@@ -9,6 +9,7 @@ services:
         depends_on:
             - webserver
         volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
             - /Users/al3x/code/seqvence/docker-bday/docker-bday-worker:/opt/worker
         entrypoint: python /opt/worker/worker.py
     webserver:
