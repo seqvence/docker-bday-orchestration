@@ -28,6 +28,8 @@ services:
         entrypoint: /usr/bin/supervisord -c /etc/supervisord.conf --nodaemon
     mongodb:
         image: mongo:latest
+        ports:
+            - "27017:27017"
     consul:
         image: "voxxit/consul:latest"
         hostname: "consul"
