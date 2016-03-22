@@ -5,6 +5,8 @@ RUN apk add --update \
     git \
     py-pip \
     supervisor \
+    nginx \
+    letsencrypt \
 && rm -rf /var/cache/apk/*
 
 RUN mkdir -p /opt/webserver
@@ -18,3 +20,5 @@ RUN pip install -r /opt/webserver/requirements.txt
 
 COPY gunicorn.conf /opt/
 COPY gunicorn.ini /etc/supervisor.d/
+COPY nginx.conf /etc/nginx/
+COPY nginx.ini /etc/supervisor.d/
