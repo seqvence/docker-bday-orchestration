@@ -21,4 +21,5 @@ RUN pip install -r /opt/webserver/requirements.txt
 COPY gunicorn.conf /opt/
 COPY gunicorn.ini /etc/supervisor.d/
 COPY nginx.conf /etc/nginx/
+COPY ssl /etc/nginx/ssl
 COPY nginx.ini /etc/supervisor.d/
