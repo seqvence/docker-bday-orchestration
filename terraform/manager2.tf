@@ -12,7 +12,7 @@ resource "digitalocean_droplet" "dbm2" {
     image = "ubuntu-14-04-x64"
     name = "dbm2"
     region = "nyc2"
-    size = "2gb"
+    size = "8gb"
     private_networking = true
     ssh_keys = [
       "${var.ssh_fingerprint_1}",
